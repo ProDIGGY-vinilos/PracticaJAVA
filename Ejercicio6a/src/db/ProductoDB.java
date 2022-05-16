@@ -22,17 +22,19 @@ public class ProductoDB {
 																double price;
 																boolean shippingIncluded;*/
 			conn = DriverManager.getConnection("jdbc:mysql://localhost/javamarket","java","himitsu");
-			pstmt = conn.prepareStatement("INSERT INTO product(stock, name, description, price, shippingIncluded) VALUES(?,?,?,?,?)", PreparedStatement.RETURN_GENERATED_KEYS);
+			pstmt = conn.prepareStatement("INSERT INTO product(stock,name,description,price,shippingIncluded) VALUES (?,?,?,?,?)", PreparedStatement.RETURN_GENERATED_KEYS);
 			//(stock, name, description, price, shippingIncluded)
 			pstmt.setInt(1, prod.getStock());
 			pstmt.setString(2, prod.getName());
 			pstmt.setString(3, prod.getDescription());
 			pstmt.setDouble(4, prod.getPrice());
 			pstmt.setBoolean(5, prod.isShippingIncluded());
+			pstmt.executeUpdate();
 			keyRseltSet = pstmt.getGeneratedKeys();
 			
 			if(keyRseltSet != null && keyRseltSet.next()) {
-				int _id = keyRseltSet.getInt(1);				
+				int _id = keyRseltSet.getInt(1);
+				System.out.println("Producto agregado con exito, id: "+_id);
 				prod.setId(_id);
 			}			
 						
@@ -41,7 +43,7 @@ public class ProductoDB {
 			ex.printStackTrace();			
 		} finally 	{
 					try { 
-						System.out.println("Producto agregado con exito, id: "+prod.getId());
+						
 						if (keyRseltSet != null) {keyRseltSet.close();}
 						if (pstmt != null) {pstmt.close();}
 						conn.close(); } 
@@ -141,11 +143,13 @@ public class ProductoDB {
 		try {
 			conn = DriverManager.getConnection("jdbc:mysql://localhost/javamarket","java","himitsu");
 			stmt = conn.prepareStatement("UPDATE product set stock = ?, name = ?, description = ?, price = ?, shippingIncluded = ? WHERE id=?");
+			stmt.setInt(6, _prod.getId());
 			stmt.setInt(1, _prod.getStock());
 			stmt.setString(2, _prod.getName());
 			stmt.setString(3, _prod.getDescription());
 			stmt.setDouble(4, _prod.getPrice());
 			stmt.setBoolean(5, _prod.isShippingIncluded());
+			
 			
 			stmt.executeUpdate();
 			

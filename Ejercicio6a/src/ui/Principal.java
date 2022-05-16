@@ -7,6 +7,8 @@ import entidades.ProductLogic;
 
 
 public class Principal {
+	
+	private static Scanner lector = new Scanner(System.in);
 
 	public static void main(String[] args) {
 		
@@ -36,7 +38,7 @@ public class Principal {
 				break;
 			case 6: //SALIR
 				System.out.println("CERRANDO...");
-			
+				lector.close();
 				System.exit(0);
 
 			default:
@@ -51,7 +53,8 @@ public class Principal {
 				System.out.flush();			
 				break;
 			}
-		} while (opc != 6);		
+		} while (opc != 6);	
+		lector.close();
 
 	}
 
@@ -59,7 +62,7 @@ public class Principal {
 		Boolean editar;
 		do {
 		int _id;
-		Scanner lector = new Scanner(System.in);
+		//Scanner lector = new Scanner(System.in);
 		System.out.print("Ingrese el id del producto a actualizar: "); _id = Integer.parseInt(lector.nextLine());
 		ProductLogic editP = new ProductLogic();
 		editP = ProductLogic.getOneLogic(_id);
@@ -74,9 +77,10 @@ public class Principal {
 			System.out.print("Ingrese stock nuevo: (stock anterior: "+editP.getStock()+"): "); editP.setStock(Integer.parseInt(lector.nextLine()));
 			System.out.print("Ingrese si incluye envio: (estado anterior: "+editP.isShippingIncluded()+"): "); editP.setShippingIncluded(Boolean.parseBoolean(lector.nextLine()));
 			System.out.println();
+			entidades.ProductLogic.updateLogic(editP);
 			System.out.println("Producto actualizado");				
 		} 		
-		lector.close();
+		//lector.close();
 		}while(editar == false);
 	}
 
@@ -84,7 +88,7 @@ public class Principal {
 		Boolean borrar;
 		do {
 		int _id;
-		Scanner lector = new Scanner(System.in);
+		//Scanner lector = new Scanner(System.in);
 		System.out.print("Ingrese el id del producto a eliminar: "); _id = Integer.parseInt(lector.nextLine());
 		ProductLogic delP = new ProductLogic();
 		delP = ProductLogic.getOneLogic(_id);
@@ -95,20 +99,20 @@ public class Principal {
 			ProductLogic.removeLogic(delP);
 			System.out.println("Producto eliminado");				
 		} 
-		lector.close();
+		//lector.close();
 		}while(borrar == false);
 	}
 
 	private static void nuevo() {
 		ProductLogic newp = new ProductLogic();
-		Scanner lector = new Scanner(System.in);
+		//Scanner lector = new Scanner(System.in);
 		System.out.println("A continuacion ingrese los datos del producto nuevo: ");
 		System.out.print("Ingrese nombre del producto: "); newp.setName(lector.nextLine());
 		System.out.print("Ingrese una breve descripcion: "); newp.setDescription(lector.nextLine());
 		System.out.print("Ingrese precio: "); newp.setPrice(Double.parseDouble(lector.nextLine()));
 		System.out.print("Ingrese stock: "); newp.setStock(Integer.parseInt(lector.nextLine()));
 		System.out.print("Ingrese si tiene envio incluido si(1)/no(0): "); newp.setShippingIncluded(Boolean.parseBoolean(lector.nextLine()));
-		lector.close();
+		//lector.close();
 		ProductLogic.addNewLogic(newp);
 	}
 
@@ -124,9 +128,9 @@ public class Principal {
 
 	private static void buscar() {
 		System.out.println("Ingrese Id a buscar: ");
-		Scanner lector = new Scanner(System.in);
+		//Scanner lector = new Scanner(System.in);
 		int _id = Integer.parseInt(lector.nextLine());
-		lector.close();
+		//lector.close();
 		ProductLogic p1 = new ProductLogic();
 		p1 = entidades.ProductLogic.getOneLogic(_id);				
 		System.out.println("ID: "+p1.getId()+" Nombre: "+p1.getName()+" Precio: "+p1.getPrice());
@@ -134,7 +138,7 @@ public class Principal {
 
 	private static int menu() {
 		int opc;
-		Scanner lector = new Scanner(System.in);
+		//Scanner lector = new Scanner(System.in);
 		System.out.println("Ingrese la opcion que desee: ");
 		System.out.println("1- Listar");
 		System.out.println("2- Buscar");
@@ -143,7 +147,7 @@ public class Principal {
 		System.out.println("5- Acualizar");
 		System.out.println("6- Salir");
 		opc = Integer.parseInt(lector.nextLine());
-		lector.close();
+		//lector.close();
 		return opc;
 	}
 
